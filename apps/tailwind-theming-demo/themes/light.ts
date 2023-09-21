@@ -27,11 +27,13 @@ const lightColorTheme: ColorThemeSchema = {
       subdued: colors.gray[500],
       light: colors.gray[400],
     },
-    selected:  colors.blue[600]
+    selected: colors.blue[600],
   },
   borderColor: {
-    highlight: colors.gray[200]
+    highlight: colors.gray[200],
   },
+  // re-add to verify that theme is structurally valid
+  // test: colors.black,
 };
 
 const lightTheme = {

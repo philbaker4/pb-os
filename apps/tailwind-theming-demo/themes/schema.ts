@@ -1,4 +1,4 @@
-import { HexCode } from 'tailwind-theming-plugin/src';
+import { HexCode, StrippedColorTheme } from 'tailwind-theming-plugin/src';
 
 type BackgroundColorSchema = {
   default: HexCode;
@@ -32,11 +32,14 @@ type TextColorSchema = {
 type BorderColorSchema = {
   highlight: HexCode;
 };
-// todo: create helper to ensure matching Tailwind spec
-type ColorThemeSchema = {
+
+// StrippedColorTheme is a utility type that removes invalid properties & ensures valid theme definitions
+type ColorThemeSchema = StrippedColorTheme<{
   backgroundColor: BackgroundColorSchema;
   textColor: TextColorSchema;
   borderColor: BorderColorSchema;
-};
+  // test is removed from ColorThemeSchema
+  test: HexCode;
+}>;
 
 export type { ColorThemeSchema };

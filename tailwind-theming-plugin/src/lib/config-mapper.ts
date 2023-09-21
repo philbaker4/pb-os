@@ -2,13 +2,13 @@ import { HexCode } from './color-utilities';
 import { getRgbaChannels } from './color-utilities';
 
 interface RecursiveKeyValuePair<K extends keyof any = string, V = string> {
-  [key: string]: V | RecursiveKeyValuePair<K, V>
+  [key: string]: V | RecursiveKeyValuePair<K, V>;
 }
-type NestedColorDefinition = RecursiveKeyValuePair<string,HexCode>
+type NestedColorDefinition = RecursiveKeyValuePair<string, HexCode>;
 
 // Keys used in tailwind config to define color utilities
 // statically pulled from https://github.com/tailwindlabs/tailwindcss/blob/3e16028406aa47351434d29b60da5db3935413b5/types/config.d.ts#L83
-const tailwindColorKeyMap = {
+const TAILWIND_COLOR_KEY_MAP = {
   divideColor: 'divide',
   borderColor: 'border',
   backgroundColor: 'bg',
@@ -27,9 +27,8 @@ const tailwindColorKeyMap = {
   ringOffsetColor: 'ring-offset',
 } as const;
 
-type TailwindColorKey = keyof typeof tailwindColorKeyMap;
-
-
+type TailwindColorKey = keyof typeof TAILWIND_COLOR_KEY_MAP;
+const TAILWIND_COLOR_KEYS_RAW = Object.keys(TAILWIND_COLOR_KEY_MAP);
 
 function remapColorsInputToUtilities(
   mapType: 'varDeclaration' | 'varReferences',
@@ -79,6 +78,14 @@ function remapColorsInputToUtilities(
   return response;
 }
 
+function convertToTailwindColorKey(k: string) {
+  if (TAILWIND_COLOR_KEYS_RAW.includes(k)) {
+    return k as TailwindColorKey
+  }
+  console.warn(`${k} is not a valid TailwindColorKey. Use StrippedColorTheme generic to ensure that theme is structurally valid.`)
+  return null
+}
+
 // Generate utility classes for CSS variables
 function getColorUtilities<
   ColorTheme extends { [key in TailwindColorKey]?: NestedColorDefinition }
@@ -86,8 +93,17 @@ function getColorUtilities<
   const typeUtilities: { [key: string]: { [key: string]: string } } = {};
 
   for (const [type, def] of Object.entries(colorTheme)) {
-    const tAbbrev = tailwindColorKeyMap[type as TailwindColorKey];
-    const res = remapColorsInputToUtilities('varReferences', def, [tAbbrev], {});
+    const twKey = convertToTailwindColorKey(type)
+    if (twKey == null) {
+      continue
+    }
+    const tAbbrev = TAILWIND_COLOR_KEY_MAP[twKey];
+    const res = remapColorsInputToUtilities(
+      'varReferences',
+      def,
+      [tAbbrev],
+      {}
+    );
     typeUtilities[type] = res;
   }
   return typeUtilities;
@@ -99,7 +115,11 @@ function getColorCssVariables<
 >(colorTheme: ColorTheme) {
   const typeVariables: { [key: string]: { [key: string]: string } } = {};
   for (const [type, def] of Object.entries(colorTheme)) {
-    const tAbbrev = tailwindColorKeyMap[type as TailwindColorKey];
+    const twKey = convertToTailwindColorKey(type)
+    if (twKey == null) {
+      continue
+    }
+    const tAbbrev = TAILWIND_COLOR_KEY_MAP[twKey];
     const res = remapColorsInputToUtilities(
       'varDeclaration',
       def,
@@ -116,10 +136,5 @@ function getColorCssVariables<
   return variables;
 }
 
-
-
 export type { TailwindColorKey, NestedColorDefinition };
-export {
-  getColorCssVariables,
-  getColorUtilities,
-};
+export { getColorCssVariables, getColorUtilities };

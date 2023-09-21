@@ -24,6 +24,9 @@ type GenericThemes = {
   [key: string]: GenericTheme;
 };
 
+type StrippedColorTheme<S extends GenericTheme['colors']> = {
+  [key in keyof GenericTheme['colors']]: key extends keyof S ? S[key] : never
+}
 const TailwindMultiThemePluginFactory = <ThemesT extends GenericThemes>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _t: ThemesT
@@ -74,5 +77,5 @@ function listColorUtilities<
   );
 }
 
-export type { HexCode };
+export type { HexCode, StrippedColorTheme };
 export { TailwindMultiThemePluginFactory, listColorUtilities };
