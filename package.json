@@ -11,6 +11,7 @@
     "@nx/eslint-plugin": "16.8.1",
     "@nx/js": "16.8.1",
     "@nx/linter": "16.8.1",
+    "@nx/next": "^16.8.1",
     "@nx/vite": "16.8.1",
     "@nx/workspace": "16.8.1",
     "@types/node": "18.7.1",
