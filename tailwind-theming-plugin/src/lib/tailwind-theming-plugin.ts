@@ -25,8 +25,8 @@ type GenericThemes = {
 };
 
 type StrippedColorTheme<S extends GenericTheme['colors']> = {
-  [key in keyof GenericTheme['colors']]: key extends keyof S ? S[key] : never
-}
+  [key in keyof GenericTheme['colors']]: key extends keyof S ? S[key] : never;
+};
 const TailwindMultiThemePluginFactory = <ThemesT extends GenericThemes>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _t: ThemesT
@@ -40,7 +40,9 @@ const TailwindMultiThemePluginFactory = <ThemesT extends GenericThemes>(
         });
         if (dark) {
           addBase({
-            '@media (prefers-color-scheme: dark)': getColorCssVariables(dark.colors),
+            '@media (prefers-color-scheme: dark)': {
+              ':root': getColorCssVariables(dark.colors),
+            },
           });
         }
         Object.entries(themes).forEach(([key, value]) => {
