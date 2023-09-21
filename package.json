@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "zod": "^3.22.2"
+  },
   "devDependencies": {
     "@nx/eslint-plugin": "16.8.1",
     "@nx/js": "16.8.1",
