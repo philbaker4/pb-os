@@ -1,3 +1,78 @@
+# tailwind-theming-plugin demo
+
+
+### [Live demo](https://tailwind-theming-plugin-demo-git-feature-t-266489-philipbaker21.vercel.app/)
+
+### High level usage explanation
+- Theme schema (desired utility names) defined in TS [here](./apps/tailwind-theming-demo/themes/schema.ts). JSON to utilities mapping logic found in [here](#json-to-utility-logic)
+- Themes are defined in json (e.g. [light theme](./apps/tailwind-theming-demo/themes/light.ts))
+- Themes are passed into the [`TailwindMultiThemePluginFactory`](./tailwind-theming-plugin/src/lib/tailwind-theming-plugin.ts) to generate a plugin with improved typesafety. Logic of the generated plugin is as follows:
+    - Each theme leaf property is mapped to a css variable and a tailwind class utility
+    - Each theme's variable definitions are added to a data property selector in the output css file
+        - e.g. `[data-theme="dark"]` for a theme named `dark`
+    - The `base` (required) theme will be mapped to `:root { <variable defs> }`, giving default color values to each of the generated utilities
+    - If a `dark` theme exists, its variable definitions will be mapped to `@media (prefers-color-scheme: dark) { :root { <variable defs > } }` to avoid theme flicker on initial pageload. If desiring to be responsive to `prefers-color-scheme` change, see [Providers](./apps/tailwind-theming-demo/app/providers.tsx)
+    - Using system theme may be a good stopping point but you can also enable use of other themes as demonstrated in `Providers` through setting the `data-theme` property on an html element. While `body` is used in the example, you can set the `data-theme` property on any element and all children elements will adopt that theme's variable definitions. i.e., you can enable one theme for the entire page and optionally `n` themes on subsections within that page
+    - If `override` is set to `false`, utilities will be generated *in addition to* tailwind color utilities. If set to false, *only* your generated color utilities will exist for all Tailwind color property keys that your theme defines
+- Write code using the generated utilities. Tailwind's VSCode plugin should enable autocomplete with these utilities, though without a true preview of the colors given that the utilities actually point to a css variable name.
+- Adding a new theme becomes as simple as defining a json object that matches your `ColorThemeSchema` and setting a `data-theme` property in code or via user input
+ 
+
+ ### JSON to utility logic
+
+- Tailwind color property keys map to tailwind utility prefixes
+    - Tailwind color property keys can be found [here](./tailwind-theming-plugin/src/lib/config-mapper.ts)
+    - e.g. `backgroundColor` maps to `bg`
+- json -> utility logic
+    - Each layer of nesting will be joined with `-`
+    - `_` object properties are excluded from the utility name
+    - e.g. 
+        ```
+        {
+            backgroundColor: {
+                default: colors.white,   
+                surface: {
+                    _: colors.gray[50],
+                    subdued: colors.gray[100]
+                }
+            }
+        }
+        ```
+        map to `bg-default`, `bg-surface`, `bg-surface-subdued`
+            
+
+### Areas of note
+- [Theme schema definition](./apps/tailwind-theming-demo/themes/schema.ts)
+    - Take note of `StrippedColorTheme` use in the `ColorThemeSchema` definition
+- [Light mode definition](./apps/tailwind-theming-demo/themes/light.ts)
+- [Themes object defined](./apps/tailwind-theming-demo/themes/index.ts)
+- [Tailwind config + plugin configuration](./apps/tailwind-theming-demo/tailwind.config.ts)
+- [Plugin factory defintion](./tailwind-theming-plugin/src/lib/tailwind-theming-plugin.ts)
+- [JSON -> utility + variable logic](./tailwind-theming-plugin/src/lib/config-mapper.ts)
+
+### Not yet implemented 
+- Non-hex support 
+- Alpha values in color variable definitions
+- Theme support for all values other than colors 
+    - e.g. spacing, border radius, typography
+
+### Running locally
+
+After running `npm install`, run `npx nx run tailwind-theming-demo:serve` 
+
+
+
+<br>
+<br>
+
+---
+
+<br>
+<br>
+<br>
+<br>
+
+
 # PbOs
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>

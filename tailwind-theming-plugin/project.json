@@ -1,0 +1,41 @@
+{
+  "name": "tailwind-theming-plugin",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tailwind-theming-plugin/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tailwind-theming-plugin",
+        "main": "tailwind-theming-plugin/src/index.ts",
+        "tsConfig": "tailwind-theming-plugin/tsconfig.lib.json",
+        "assets": ["tailwind-theming-plugin/*.md"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs tailwind-theming-plugin {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "tailwind-theming-plugin/**/*.ts",
+          "tailwind-theming-plugin/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../coverage/tailwind-theming-plugin"
+      }
+    }
+  },
+  "tags": []
+}
