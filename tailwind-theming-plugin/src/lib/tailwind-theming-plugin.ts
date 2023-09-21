@@ -19,6 +19,7 @@ type GenericTheme = {
 };
 type GenericThemes = {
   base: GenericTheme;
+  dark?: GenericTheme;
 } & {
   [key: string]: GenericTheme;
 };
@@ -29,11 +30,16 @@ const TailwindMultiThemePluginFactory = <ThemesT extends GenericThemes>(
 ) => {
   return plugin.withOptions<ThemesT>(
     function (themes) {
-      const { base } = themes;
+      const { base, dark } = themes;
       return function ({ addBase }) {
         addBase({
           ':root': getColorCssVariables(base.colors),
         });
+        if (dark) {
+          addBase({
+            '@media (prefers-color-scheme: dark)': getColorCssVariables(dark.colors),
+          });
+        }
         Object.entries(themes).forEach(([key, value]) => {
           addBase({
             [`[data-theme="${key}"]`]: getColorCssVariables(value.colors),

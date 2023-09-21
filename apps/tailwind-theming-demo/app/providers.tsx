@@ -10,7 +10,7 @@ export function Providers({
     {
         children: React.ReactNode;
     }) {
-    const [theme, setTheme] = useState<ThemeKey>('base');
+    const [theme, setTheme] = useState<ThemeKey | undefined>(undefined);
 
     function handlePrefersSchemeChange(event: MediaQueryListEvent) {
         if (event.matches) {
@@ -22,9 +22,6 @@ export function Providers({
     }
 
     useEffect(() => {
-        if (typeof window !== "undefined" && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setTheme('dark')
-        }
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handlePrefersSchemeChange);
 
         // cleanup this component
@@ -40,7 +37,8 @@ export function Providers({
         >
             <div className=" flex flex-col gap-1 w-20 mx-auto mt-12">
                 <label htmlFor="theme-select" className="text-default">Theme</label>
-                <select className="text-gray-900" name="theme-select" id="theme-select" onChange={(evt) => setTheme(evt.target.value as ThemeKey)} value={theme}>
+                <select className="text-gray-900" name="theme-select" id="theme-select" onChange={(evt) => setTheme(evt.target.value as ThemeKey)} value={theme ?? undefined} >
+                    <option value={undefined} >{'System'}</option>
                     {THEME_KEYS.map(k =>
                         <option key={k} value={k} >{k == 'base' ? 'light' : k}</option>
                     )}
