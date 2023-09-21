@@ -27,7 +27,7 @@
     - Each layer of nesting will be joined with `-`
     - `_` object properties are excluded from the utility name
     - e.g. 
-        ```json
+        ```
         {
             backgroundColor: {
                 default: colors.white,   
