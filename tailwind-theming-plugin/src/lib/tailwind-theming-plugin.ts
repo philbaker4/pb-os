@@ -29,7 +29,8 @@ type StrippedColorTheme<S extends GenericTheme['colors']> = {
 };
 const TailwindMultiThemePluginFactory = <ThemesT extends GenericThemes>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _t: ThemesT
+  _t: ThemesT,
+  override = false
 ) => {
   return plugin.withOptions<ThemesT>(
     function (themes) {
@@ -55,6 +56,13 @@ const TailwindMultiThemePluginFactory = <ThemesT extends GenericThemes>(
     // Only need to create utilities for the base theme, as css variable definitions will change under the hood
     function (themes) {
       const { base } = themes;
+      if (override) {
+        return {
+          theme: {
+            ...getColorUtilities(base.colors),
+          },
+        };
+      }
       return {
         theme: {
           extend: {

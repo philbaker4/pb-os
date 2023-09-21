@@ -1,7 +1,7 @@
 # tailwind-theming-plugin demo
 
 
-### [Live demo](https://pb-os-git-feature-tailwind-theming-plugin-philipbaker21.vercel.app/)
+### [Live demo](https://tailwind-theming-plugin-demo-git-feature-t-266489-philipbaker21.vercel.app/)
 
 ### High level usage explanation
 - Theme schema (desired utility names) defined in TS [here](./apps/tailwind-theming-demo/themes/schema.ts). JSON to utilities mapping logic found in [here](#json-to-utility-logic)
@@ -12,9 +12,10 @@
         - e.g. `[data-theme="dark"]` for a theme named `dark`
     - The `base` (required) theme will be mapped to `:root { <variable defs> }`, giving default color values to each of the generated utilities
     - If a `dark` theme exists, its variable definitions will be mapped to `@media (prefers-color-scheme: dark) { :root { <variable defs > } }` to avoid theme flicker on initial pageload. If desiring to be responsive to `prefers-color-scheme` change, see [Providers](./apps/tailwind-theming-demo/app/providers.tsx)
-    - Using system theme may be a good stopping point but you can also enable use of other themes as demonstrated in `Providers` through setting the `data-theme` property on an html element. While `body` is used in the example, you can set the `data-theme` property on any element and all children elements will adopt that theme's variable definitions. i.e., you can enable one theme for the entire page and optionally `n` themes on subsections within that page.
-- Write code using the generated utilities. Tailwind's VSCode plugin should enable autocomplete with these utilities, though without a true preview of the colors given that the utilities actually point to a css variable name. 
-- Adding a new theme becomes as simple as defining a json object that matches your `ColorThemeSchema` and setting a `data-theme` property in code or via user input.
+    - Using system theme may be a good stopping point but you can also enable use of other themes as demonstrated in `Providers` through setting the `data-theme` property on an html element. While `body` is used in the example, you can set the `data-theme` property on any element and all children elements will adopt that theme's variable definitions. i.e., you can enable one theme for the entire page and optionally `n` themes on subsections within that page
+    - If `override` is set to `false`, utilities will be generated *in addition to* tailwind color utilities. If set to false, *only* your generated color utilities will exist for all Tailwind color property keys that your theme defines
+- Write code using the generated utilities. Tailwind's VSCode plugin should enable autocomplete with these utilities, though without a true preview of the colors given that the utilities actually point to a css variable name.
+- Adding a new theme becomes as simple as defining a json object that matches your `ColorThemeSchema` and setting a `data-theme` property in code or via user input
  
 
  ### JSON to utility logic
