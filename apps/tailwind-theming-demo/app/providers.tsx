@@ -40,9 +40,9 @@ export function Providers({
         >
             <div className=" flex flex-col gap-1 w-20 mx-auto mt-12">
                 <label htmlFor="theme-select" className="text-default">Theme</label>
-                <select className="text-gray-900" name="theme-select" id="theme-select" onChange={(evt) => setTheme(evt.target.value as ThemeKey)}>
+                <select className="text-gray-900" name="theme-select" id="theme-select" onChange={(evt) => setTheme(evt.target.value as ThemeKey)} defaultValue={theme}>
                     {THEME_KEYS.map(k =>
-                        <option key={k} value={k} selected={theme == k}>{k == 'base' ? 'light' : k}</option>
+                        <option key={k} value={k} >{k == 'base' ? 'light' : k}</option>
                     )}
                 </select>
             </div>
