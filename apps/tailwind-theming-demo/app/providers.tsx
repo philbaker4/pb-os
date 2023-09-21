@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ThemeKey } from "../themes";
 import { THEME_KEYS } from "../themes";
 
@@ -12,6 +12,27 @@ export function Providers({
     }) {
     const [theme, setTheme] = useState<ThemeKey>('base');
 
+    function handlePrefersSchemeChange(event: MediaQueryListEvent) {
+        if (event.matches) {
+            setTheme('dark')
+        }
+        else {
+            setTheme('base')
+        }
+    }
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark')
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handlePrefersSchemeChange);
+
+        // cleanup this component
+        return () => {
+            window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', handlePrefersSchemeChange);
+        };
+    }, []);
+
     return (
         <body
             className="bg-default min-h-screen text-default pb-24"
@@ -21,7 +42,7 @@ export function Providers({
                 <label htmlFor="theme-select" className="text-default">Theme</label>
                 <select className="text-gray-900" name="theme-select" id="theme-select" onChange={(evt) => setTheme(evt.target.value as ThemeKey)}>
                     {THEME_KEYS.map(k =>
-                        <option  key={k} value={k} selected={theme == k}>{k}</option>
+                        <option key={k} value={k} selected={theme == k}>{k == 'base' ? 'light' : k}</option>
                     )}
                 </select>
             </div>
