@@ -21,7 +21,16 @@ const darkColorTheme: ColorThemeSchema = {
     },
   },
   textColor: {
-    default: colors.gray[50]
+    default: {
+      _: colors.gray[300],
+      strong: colors.white,
+      subdued: colors.gray[300],
+      light: colors.gray[500],
+    },
+    selected:  colors.blue[300]
+  },
+  borderColor: {
+    highlight: colors.gray[800]
   }
 };
 

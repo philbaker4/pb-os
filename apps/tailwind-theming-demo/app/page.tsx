@@ -2,6 +2,8 @@
 // import { lightTheme } from "../themes/light";
 // listColorUtilities(lightTheme.colors)
 
+import ContentCard from "./content-card";
+
 const colorUtilities = [
   'bg-default',
   'bg-surface-default',
@@ -29,6 +31,12 @@ export default async function Index() {
               </div>
             </div>
           })}
+        </div>
+        <div className="text-xl font-semibold mt-16">
+          Content Card
+        </div>
+        <div className="grid grid-cols-3 gap-8 mt-12 ">
+          <ContentCard header="Example card" description="This is the card description"></ContentCard>
         </div>
       </div>
     </>

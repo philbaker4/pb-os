@@ -20,12 +20,23 @@ type BackgroundColorSchema = {
 };
 
 type TextColorSchema = {
-  default: HexCode;
-}
+  default: {
+    _: HexCode;
+    subdued: HexCode;
+    strong: HexCode;
+    light: HexCode;
+  };
+  selected: HexCode;
+};
+
+type BorderColorSchema = {
+  highlight: HexCode;
+};
 // todo: create helper to ensure matching Tailwind spec
 type ColorThemeSchema = {
   backgroundColor: BackgroundColorSchema;
-  textColor: TextColorSchema
+  textColor: TextColorSchema;
+  borderColor: BorderColorSchema;
 };
 
 export type { ColorThemeSchema };
