@@ -1,4 +1,5 @@
 import './global.css';
+import { Providers } from './providers';
 
 export const metadata = {
   title: 'Welcome to tailwind-theming-demo',
@@ -12,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <Providers>{children}</Providers>
     </html>
   );
 }

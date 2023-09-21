@@ -4,8 +4,6 @@
 
 const colorUtilities = [
   'bg-default',
-  'bg-surface',
-  'bg-surface-subdued',
   'bg-surface-default',
   'bg-surface-default-subdued',
   'bg-surface-default-selected',
@@ -13,13 +11,12 @@ const colorUtilities = [
   'bg-surface-highlight-subdued',
   'bg-surface-primary',
   'bg-surface-primary-strong',
-  'bg-surface-selected'
 ]
 
 export default async function Index() {
   return (
     <>
-      <div className="max-w-7xl mx-auto py-12">
+      <div className="max-w-7xl mx-auto py-12 text-default">
         <div className="text-xl font-semibold">
           Background Colors
         </div>

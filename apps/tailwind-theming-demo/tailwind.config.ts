@@ -4,14 +4,8 @@ import { createGlobPatternsForDependencies } from '@nx/next/tailwind';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { TailwindMultiThemePluginFactory } from '../../tailwind-theming-plugin/src';
-import { lightTheme } from './themes/light';
-// see note in /libs/theming/src/lib/color/color-utilities.ts
-// import { TailwindMultiThemePlugin } from '@zelus-utils/theming';
 
-// import { themes } from './theming';
-const themes = {
-  base: lightTheme
-}
+import { themes } from './themes';
 
 const TailwindMultiThemePlugin = TailwindMultiThemePluginFactory(themes);
 

@@ -5,24 +5,24 @@ const lightColorTheme: ColorThemeSchema = {
   backgroundColor: {
     default: colors.white,
     surface: {
-      _: colors.white,
-      subdued: colors.gray[50],
       default: {
         _: colors.white,
-        subdued: colors.gray[100],
-        selected: colors.gray[200],
+        subdued: colors.gray[50],
+        selected: colors.blue[50],
       },
       highlight: {
-        _: colors.purple[200],
-        subdued: colors.purple[100],
+        _: colors.gray[300],
+        subdued: colors.gray[100],
       },
       primary: {
-        _: colors.teal[100],
-        strong: colors.teal[700],
+        _: colors.blue[50],
+        strong: colors.blue[600],
       },
-      selected: colors.gray[100],
     },
   },
+  textColor: {
+    default: colors.gray[900]
+  }
 };
 
 const lightTheme = {
