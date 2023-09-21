@@ -1,5 +1,6 @@
 import * as plugin from 'tailwindcss/plugin';
 
+import { HexCode } from './color-utilities';
 import {
   NestedColorDefinition,
   TailwindColorKey,
@@ -54,4 +55,18 @@ const TailwindMultiThemePluginFactory = <ThemesT extends GenericThemes>(
   );
 };
 
-export { TailwindMultiThemePluginFactory };
+// log utilities to statically create demo
+function listColorUtilities<
+  ColorTheme extends { [key in TailwindColorKey]?: NestedColorDefinition }
+>(colorTheme: ColorTheme) {
+  const typeVariables = getColorCssVariables(colorTheme);
+
+  console.log(
+    Object.keys(typeVariables).map((v) => {
+      return v.replace('--', '');
+    })
+  );
+}
+
+export type { HexCode };
+export { TailwindMultiThemePluginFactory, listColorUtilities };
