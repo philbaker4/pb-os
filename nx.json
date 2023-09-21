@@ -38,5 +38,18 @@
       "!{projectRoot}/tsconfig.spec.json"
     ],
     "sharedGlobals": []
+  },
+  "generators": {
+    "@nx/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nx/next": {
+      "application": {
+        "style": "none",
+        "linter": "eslint"
+      }
+    }
   }
 }
